@@ -4,8 +4,12 @@ import 'package:provider_example/change_notifier_consumer/change_notifier_class.
 import 'package:provider_example/change_notifier_consumer/count_example.dart';
 import 'package:provider_example/favourites/favourites_example.dart';
 import 'package:provider_example/favourites/favourites_provider.dart';
+import 'package:provider_example/future_provider/future_provider_example.dart';
 import 'package:provider_example/multiprovider/slider_example.dart';
 import 'package:provider_example/multiprovider/slider_provider.dart';
+import 'package:provider_example/navigation_observer.dart';
+import 'package:provider_example/stream_provider/stream_provider.dart';
+import 'package:provider_example/stream_provider/stream_provider_example.dart';
 import 'package:provider_example/theme/theme_provider.dart';
 import 'package:provider_example/value_notifier/stateless_counter_example.dart';
 import 'package:provider_example/why_provider.dart';
@@ -40,6 +44,10 @@ class MyApp extends StatelessWidget {
           create: (_) {
             return ThemeProvider();
           },
+        ),
+        StreamProvider.value(
+          value: countStream(),
+          initialData: 0,
         )
       ],
       builder: (context, child) => MaterialApp(
@@ -53,9 +61,9 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.dark,
             useMaterial3: true,
             appBarTheme: AppBarTheme(
-                foregroundColor: Colors.white,
-            backgroundColor: Colors.white)),
+                foregroundColor: Colors.white, backgroundColor: Colors.white)),
         debugShowCheckedModeBanner: false,
+        navigatorObservers: [CustomNavigationObserver()],
         routes: {
           '/MyHomePage': (context) => MyHomePage(),
           '/WhyProvider': (context) => WhyProvider(),
@@ -63,6 +71,8 @@ class MyApp extends StatelessWidget {
           '/SliderExample': (context) => SliderExample(),
           '/FavouritesExample': (context) => FavouritesExample(),
           '/StatelessCounter': (context) => StatelessCounter(),
+          '/FutureProvider': (context) => MyFutureProviderExample(),
+          '/StreamProvider': (context) => MyStreamProviderExample(),
         },
         initialRoute: '/MyHomePage',
       ),
@@ -94,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             onPressed: () {
               isLight = !isLight;
-              provider.changeTheme(isLight? ThemeMode.light : ThemeMode.dark);
+              provider.changeTheme(isLight ? ThemeMode.light : ThemeMode.dark);
             },
             icon: isLight ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),
           )
@@ -123,6 +133,14 @@ class _MyHomePageState extends State<MyHomePage> {
             CustomElevatedButton(
               pathName: '/StatelessCounter',
               text: "Value Notifier",
+            ),
+            CustomElevatedButton(
+              pathName: '/FutureProvider',
+              text: "Future Provider",
+            ),
+            CustomElevatedButton(
+              pathName: '/StreamProvider',
+              text: "Stream Provider",
             ),
           ],
         ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_example/multiprovider/slider_provider.dart';
 
-
 class SliderExample extends StatefulWidget {
   const SliderExample({Key? key}) : super(key: key);
 
@@ -11,32 +10,31 @@ class SliderExample extends StatefulWidget {
 }
 
 class _SliderExampleState extends State<SliderExample> {
-
   @override
   Widget build(BuildContext context) {
     debugPrint('build');
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .inversePrimary,
-        title: Text(
-            "MultiProvider", style: TextStyle(fontSize: 25)),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("MultiProvider", style: TextStyle(fontSize: 25)),
         centerTitle: true,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Consumer<SliderProvider>(
-              builder: ( context, providerValue, child) {
+            Selector<SliderProvider, double>(
+              builder: (context, sliderProvider, child) {
                 return Slider(
                   min: 0,
                   max: 1,
-                  value: providerValue.value, onChanged: (double value) {
-                  providerValue.setSlider(value);
-                },);
+                  value: sliderProvider,
+                  onChanged: (double value) =>
+                      context.read<SliderProvider>().setSlider(value),
+                );
+              },
+              selector: (_, sliderProvider) {
+                return sliderProvider.value;
               },
             ),
             Consumer<SliderProvider>(
@@ -52,7 +50,8 @@ class _SliderExampleState extends State<SliderExample> {
                     ),
                     Expanded(
                       child: Container(
-                        color: Colors.pinkAccent.withOpacity(providerValue.value),
+                        color:
+                            Colors.pinkAccent.withOpacity(providerValue.value),
                         height: 100,
                       ),
                     )
