@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_example/Api_using_provider/home_page_api.dart';
+import 'package:provider_example/Api_using_provider/state/app_state.dart';
 import 'package:provider_example/change_notifier_consumer/change_notifier_class.dart';
 import 'package:provider_example/change_notifier_consumer/count_example.dart';
 import 'package:provider_example/favourites/favourites_example.dart';
 import 'package:provider_example/favourites/favourites_provider.dart';
+import 'package:provider_example/CryptoCurrencyMarket/for_calling_api.dart';
 import 'package:provider_example/future_provider/future_provider_example.dart';
 import 'package:provider_example/multiprovider/slider_example.dart';
 import 'package:provider_example/multiprovider/slider_provider.dart';
@@ -45,6 +48,11 @@ class MyApp extends StatelessWidget {
             return ThemeProvider();
           },
         ),
+        ChangeNotifierProvider(
+          create: (_) {
+            return AppState();
+          },
+        ),
         StreamProvider.value(
           value: countStream(),
           initialData: 0,
@@ -73,6 +81,8 @@ class MyApp extends StatelessWidget {
           '/StatelessCounter': (context) => StatelessCounter(),
           '/FutureProvider': (context) => MyFutureProviderExample(),
           '/StreamProvider': (context) => MyStreamProviderExample(),
+          '/ForCallingAPI': (context) => ForCallingAPI(),
+          '/HomePageApi': (context) => HomePageApi(),
         },
         initialRoute: '/MyHomePage',
       ),
@@ -141,6 +151,14 @@ class _MyHomePageState extends State<MyHomePage> {
             CustomElevatedButton(
               pathName: '/StreamProvider',
               text: "Stream Provider",
+            ),
+            CustomElevatedButton(
+              pathName: '/ForCallingAPI',
+              text: "Fetched Data From API",
+            ),
+            CustomElevatedButton(
+              pathName: '/HomePageApi',
+              text: "Fetched Data from API Using Provider",
             ),
           ],
         ),
