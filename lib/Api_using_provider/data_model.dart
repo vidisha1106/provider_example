@@ -1,39 +1,36 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
-
+//     final pets = petsFromJson(jsonString);
 import 'dart:convert';
 
-List<DataModel> dataFromJson(String str) =>
-    List<DataModel>.from(json.decode(str).map((x) => DataModel.fromJson(x)));
+class PetModel {
+  final int id;
+  final String userName;
+  final String petName;
+  final String petImage;
+  final bool isFriendly;
 
-String dataToJson(List<DataModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-class DataModel {
-  int userId;
-  int id;
-  String title;
-  String body;
-
-  DataModel({
-    required this.userId,
+  PetModel({
     required this.id,
-    required this.title,
-    required this.body,
+    required this.userName,
+    required this.petName,
+    required this.petImage,
+    required this.isFriendly,
   });
 
-  factory DataModel.fromJson(Map<String, dynamic> json) => DataModel(
-        userId: json["userId"],
-        id: json["id"],
-        title: json["title"],
-        body: json["body"],
-      );
+  factory PetModel.fromJson(Map<String, dynamic> json) => PetModel(
+    id: json["id"],
+    userName: json["userName"],
+    petName: json["petName"],
+    petImage: json["petImage"],
+    isFriendly: json["isFriendly"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "id": id,
-        "title": title,
-        "body": body,
-      };
+    "id": id,
+    "userName": userName,
+    "petName": petName,
+    "petImage": petImage,
+    "isFriendly": isFriendly,
+  };
 }

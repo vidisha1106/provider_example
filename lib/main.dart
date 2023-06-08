@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_example/Api_using_provider/home_page_api.dart';
-import 'package:provider_example/Api_using_provider/state/app_state.dart';
+import 'package:provider_example/Api_with_provider_2/home_page_api.dart';
+import 'package:provider_example/ProxyProvider/counter_provider.dart';
+import 'package:provider_example/ProxyProvider/msg_provider.dart';
+import 'package:provider_example/ProxyProvider/proxy_provider_example.dart';
 import 'package:provider_example/change_notifier_consumer/change_notifier_class.dart';
 import 'package:provider_example/change_notifier_consumer/count_example.dart';
 import 'package:provider_example/favourites/favourites_example.dart';
@@ -50,7 +53,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) {
-            return AppState();
+            return CounterProvider();
+          },
+        ),
+        ChangeNotifierProxyProvider<CounterProvider, MsgProvider>(
+          create: (_) {
+            return MsgProvider();
+          },
+          update: (context, counterProvider, previous) {
+            return previous!..showMsg(counterProvider);
           },
         ),
         StreamProvider.value(
@@ -83,6 +94,8 @@ class MyApp extends StatelessWidget {
           '/StreamProvider': (context) => MyStreamProviderExample(),
           '/ForCallingAPI': (context) => ForCallingAPI(),
           '/HomePageApi': (context) => HomePageApi(),
+          '/ApiUsingProvider': (context) => FetchDataUsingProvider(),
+          '/ProxyProviderExample': (context) => ProxyProviderExample()
         },
         initialRoute: '/MyHomePage',
       ),
@@ -159,6 +172,14 @@ class _MyHomePageState extends State<MyHomePage> {
             CustomElevatedButton(
               pathName: '/HomePageApi',
               text: "Fetched Data from API Using Provider",
+            ),
+            CustomElevatedButton(
+              pathName: '/ApiUsingProvider',
+              text: "Second Example of Using API with Provider",
+            ),
+            CustomElevatedButton(
+              pathName: '/ProxyProviderExample',
+              text: "ProxyProvider",
             ),
           ],
         ),
