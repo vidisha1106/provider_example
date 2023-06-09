@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_example/ProxyProvider/counter_provider.dart';
+import 'package:provider_example/ProxyProvider/api.dart';
+import 'package:provider_example/ProxyProvider/home_model.dart';
 
 class ProxyProviderExample extends StatefulWidget {
   const ProxyProviderExample({Key? key}) : super(key: key);
@@ -12,7 +13,10 @@ class ProxyProviderExample extends StatefulWidget {
 class _ProxyProviderExampleState extends State<ProxyProviderExample> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CounterProvider>(context, listen: false);
+    final counterProvider =
+        Provider.of<CounterProvider>(context, listen: false);
+    final msgProvider = Provider.of<MsgProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -36,12 +40,29 @@ class _ProxyProviderExampleState extends State<ProxyProviderExample> {
                 style: TextStyle(fontSize: 50),
               ),
             ),
+            Consumer<MsgProvider>(
+              builder: (context, value, child) {
+                return Text(
+                  " Hey \n ${value.getMessage(context)}",
+                  style: TextStyle(fontSize: 20),
+                );
+              },
+            ),
+            /*ProxyProvider<CounterProvider, MsgProvider>(
+                update: ( context, value, previous) {
+                  return previous;
+                },
+                child: Text(
+                  " Hey \n ${msgProvider.countMsg}",
+                  style: TextStyle(fontSize: 20),
+                ))*/
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            provider.updateCount();
+            counterProvider.updateCount();
+            msgProvider.getMessage(context);
           },
           child: Icon(Icons.add)),
     );
