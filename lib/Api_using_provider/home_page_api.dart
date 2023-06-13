@@ -13,6 +13,7 @@ class HomePageApi extends StatefulWidget {
 }
 
 class _HomePageApiState extends State<HomePageApi> {
+
   Future<List<PetModel>> getDataFromApi() async {
     final url = Uri.parse(
         'https://jatinderji.github.io/users_pets_api/users_pets.json');
@@ -30,7 +31,7 @@ class _HomePageApiState extends State<HomePageApi> {
         return [];
       }
     } catch (e) {
-      print("Erroe while fetching data from Api : $e");
+      print("Error while fetching data from Api : $e");
       return [];
     }
   }

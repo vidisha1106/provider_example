@@ -5,6 +5,9 @@ import 'package:provider_example/Api_with_provider_2/home_page_api.dart';
 import 'package:provider_example/ProxyProvider/translations.dart';
 import 'package:provider_example/ProxyProvider/child_widget.dart';
 import 'package:provider_example/ProxyProvider/proxy_provider_example.dart';
+import 'package:provider_example/ProxyProvider2/count_msg_proxy_provider_example.dart';
+import 'package:provider_example/ProxyProvider2/count_provider.dart';
+import 'package:provider_example/ProxyProvider2/msg_proxy_provider.dart';
 import 'package:provider_example/change_notifier_consumer/change_notifier_class.dart';
 import 'package:provider_example/change_notifier_consumer/count_example.dart';
 import 'package:provider_example/favourites/favourites_example.dart';
@@ -21,7 +24,7 @@ import 'package:provider_example/value_notifier/stateless_counter_example.dart';
 import 'package:provider_example/why_provider.dart';
 
 void main() {
-  Provider.debugCheckInvalidValueType=null;
+  Provider.debugCheckInvalidValueType = null;
   runApp(const MyApp());
 }
 
@@ -32,29 +35,52 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ///Count Example
         ChangeNotifierProvider(
           create: (_) {
             return ChangeNotifierClass();
           },
         ),
+
+        ///Slider Example
         ChangeNotifierProvider(
           create: (_) {
             return SliderProvider();
           },
         ),
+
+        ///Favourites List Example
         ChangeNotifierProvider(
           create: (_) {
             return FavouritesProvider();
           },
         ),
+
+        ///Theme Example
         ChangeNotifierProvider(
           create: (_) {
             return ThemeProvider();
           },
         ),
+
+        ///Stream Provider
         StreamProvider.value(
           value: countStream(),
           initialData: 0,
+        ),
+
+        ///Count Provider for Proxy Provider Example
+        ChangeNotifierProvider(
+          create: (_) {
+            return CountProvider();
+          },
+        ),
+
+        ChangeNotifierProxyProvider<CountProvider,Msg>(
+          create: (_) {
+            return Msg();
+          },
+          update: (_, countProvider, msg) => msg!..showMsg(countProvider.count),
         )
       ],
       builder: (context, child) => MaterialApp(
@@ -83,7 +109,8 @@ class MyApp extends StatelessWidget {
           '/ForCallingAPI': (context) => ForCallingAPI(),
           '/HomePageApi': (context) => HomePageApi(),
           '/ApiUsingProvider': (context) => FetchDataUsingProvider(),
-          '/ProxyProviderExample': (context) => ProxyProviderExample()
+          '/ProxyProviderExample': (context) => ProxyProviderExample(),
+          '/CountMsgProxyProviderExample': (context) => CountMsgProxyProviderExample()
         },
         initialRoute: '/MyHomePage',
       ),
@@ -125,49 +152,76 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ///Why Provider
             CustomElevatedButton(
               pathName: '/WhyProvider',
               text: "Why Provider",
             ),
+
+            ///Count Example
             CustomElevatedButton(
               pathName: '/CountExample',
               text: "Count Example",
             ),
+
+            ///Slider Example
             CustomElevatedButton(
               pathName: '/SliderExample',
               text: "Slider Example",
             ),
+
+            ///Favourites Example
             CustomElevatedButton(
               pathName: '/FavouritesExample',
               text: "Favourites Example",
             ),
+
+            ///Value Notifier
             CustomElevatedButton(
               pathName: '/StatelessCounter',
               text: "Value Notifier",
             ),
+
+            ///Future Provider
             CustomElevatedButton(
               pathName: '/FutureProvider',
               text: "Future Provider",
             ),
+
+            ///Stream Provider
             CustomElevatedButton(
               pathName: '/StreamProvider',
               text: "Stream Provider",
             ),
+
+            ///Fetched Bitcoin data from API without using Provider
             CustomElevatedButton(
               pathName: '/ForCallingAPI',
               text: "Fetched Data From API",
             ),
+
+            ///Fetched Dog's Images data from API using Provider
             CustomElevatedButton(
               pathName: '/HomePageApi',
               text: "Fetched Data from API Using Provider",
             ),
+
+            ///Fetched title and body from API using Provider
             CustomElevatedButton(
               pathName: '/ApiUsingProvider',
               text: "Second Example of Using API with Provider",
             ),
+
+            ///Proxy Provider Example
             CustomElevatedButton(
               pathName: '/ProxyProviderExample',
               text: "ProxyProvider",
+            ),
+
+            ///Count Msg Proxy Provider Example
+            CustomElevatedButton(
+              pathName: '/CountMsgProxyProviderExample',
+              text: "Count Msg Proxy Provider",
             ),
           ],
         ),
@@ -176,6 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+///Custom ElevatedButton
 class CustomElevatedButton extends StatelessWidget {
   final String pathName;
   final String text;
