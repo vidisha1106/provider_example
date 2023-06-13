@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_example/Api_using_provider/home_page_api.dart';
 import 'package:provider_example/Api_with_provider_2/home_page_api.dart';
-import 'package:provider_example/ProxyProvider/api.dart';
-import 'package:provider_example/ProxyProvider/home_model.dart';
+import 'package:provider_example/ProxyProvider/translations.dart';
+import 'package:provider_example/ProxyProvider/child_widget.dart';
 import 'package:provider_example/ProxyProvider/proxy_provider_example.dart';
 import 'package:provider_example/change_notifier_consumer/change_notifier_class.dart';
 import 'package:provider_example/change_notifier_consumer/count_example.dart';
@@ -52,23 +52,6 @@ class MyApp extends StatelessWidget {
             return ThemeProvider();
           },
         ),
-        Provider.value(value: Api(),),
-       ProxyProvider<Api,HomeModel>(
-         update: (context, value, previous) => HomeModel(api: value),
-       )
-        /*ChangeNotifierProvider(
-          create: (_) {
-            return CounterProvider();
-          },
-        ),
-        ChangeNotifierProxyProvider<CounterProvider, MsgProvider?>(
-          create: (_) {
-            return MsgProvider();
-          },
-          update: (context, counterProvider, previous) {
-            return previous;
-          },
-        ),*/
         StreamProvider.value(
           value: countStream(),
           initialData: 0,
