@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_example/Api_with_provider_2/data_model.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +12,7 @@ class FetchDataUsingProvider extends StatefulWidget {
 }
 
 class _FetchDataUsingProviderState extends State<FetchDataUsingProvider> {
+
   Future<List<DataModel>> fetchDataFromApi() async {
     final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
     try {

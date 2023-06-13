@@ -32,7 +32,6 @@ class _WhyProviderState extends State<WhyProvider> {
         count++;
         print(count);
         setState(() {
-
         });
     });
   }

@@ -16,8 +16,6 @@ class CountExampleState extends State<CountExample> {
 
   @override
   Widget build(BuildContext context) {
-    final countProvider =
-        Provider.of<ChangeNotifierClass>(context, listen: false);
     debugPrint("build");
     return Scaffold(
       appBar: AppBar(
@@ -38,12 +36,6 @@ class CountExampleState extends State<CountExample> {
             return countNotifier.count;
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          countProvider.setCount();
-        },
-        child: Icon(Icons.add),
       ),
     );
   }

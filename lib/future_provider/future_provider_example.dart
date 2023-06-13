@@ -14,7 +14,7 @@ class _MyFutureProviderExampleState extends State<MyFutureProviderExample> {
   @override
   Widget build(BuildContext context) {
     return FutureProvider<String>(
-      create: (BuildContext context) => Data.fetchAddress(),
+      create: (BuildContext context) => Data.fetchData(),
       initialData: "Fetching data....",
       child: Scaffold(
         appBar: AppBar(

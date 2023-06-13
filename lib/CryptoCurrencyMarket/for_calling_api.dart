@@ -13,8 +13,6 @@ class ForCallingAPI extends StatefulWidget {
 }
 
 class _ForCallingAPIState extends State<ForCallingAPI> {
-
-
   String url = 'https://api.coincap.io/v2/markets';
 
   Future<List<CryptoModel>> fetchDataFromAPI() async {
